@@ -2,7 +2,8 @@
 
 This work presents the serial communication between an Arduino UNO and a local PC for sending the raw data of MPU9250.
 
-:warning: In this repository, this work only includes the source code for Arduino. If you want to see how the data is recieved on the local PC, click this [link](https://github.com/SeonilChoi/Quaternion-based-9-DOF-IMU-Kalman-Filter-in-ROS2-foxy.git).
+> [!WARNING]
+> In this repository, this work only includes the source code for Arduino. If you want to see how the data is recieved on the local PC, click this [link](https://github.com/SeonilChoi/Quaternion-based-9-DOF-IMU-Kalman-Filter-in-ROS2-foxy.git).
 
 # System Information
 
