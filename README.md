@@ -4,6 +4,14 @@ This work presents the serial communication between an Arduino UNO and a local P
 
 :warning: In this repository, this work only includes the source code for Arduino. If you want to see how the data is recieved on the local PC, click this [link](https://github.com/SeonilChoi/Quaternion-based-9-DOF-IMU-Kalman-Filter-in-ROS2-foxy.git).
 
+# System Information
+
+- Ubuntu 20.04
+- Arduino IDE 2.3.2 linux
+
+- Arduino UNO
+- MPU9250
+
 # Description
 
 The **SerialHandler** library is used to read and write the data and set up the port.
