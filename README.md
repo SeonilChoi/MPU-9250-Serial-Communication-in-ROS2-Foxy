@@ -1,4 +1,4 @@
-# MPU9250_Serial_Communication
+# MPU9250 Serial Communication
 
 This work presents the serial communication between an Arduino UNO and a local PC for sending the raw data of MPU9250.
 
