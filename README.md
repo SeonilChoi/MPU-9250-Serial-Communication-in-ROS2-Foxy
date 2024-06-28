@@ -22,11 +22,13 @@ The main code is **MPU9250SerialCommunication**, which transmits and recives the
 
 # Usage
 
+1. Set the permission of the port.
+
 ```
 sudo chmod 777 /dev/(Arduino port name)
 
 ```
 
-Compile and upload to the Arduino board.
+2. Compile and upload to the Arduino board.
 
-Open the serial monitor and set the baudrate and close the serial monitor.
+3. Open the serial monitor and set the baudrate and close the serial monitor.
