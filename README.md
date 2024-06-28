@@ -28,3 +28,5 @@ sudo chmod 777 /dev/(Arduino port name)
 ```
 
 Compile and upload to the Arduino board.
+
+Open the serial monitor and set the baudrate and close the serial monitor.
