@@ -11,7 +11,7 @@ SerialHandler::~SerialHandler()
     closePort();
 }
 
-void SerialHandler::openPort(const int baudrate)
+void SerialHandler::openPort(long baudrate)
 {
     setBaudrate(baudrate);
 }
@@ -29,17 +29,17 @@ void SerialHandler::clearPort()
     }
 }
 
-void SerialHandler::setBaudrate(const int baudrate)
+void SerialHandler::setBaudrate(long baudrate)
 {
     closePort();
     
     baudrate_ = baudrate;
-    setupPort();
+    setupPort(baudrate);
 }
 
-void SerialHandler::setupPort()
+void SerialHandler::setupPort(long baudrate)
 {
-    Serial.begin(baudrate_);
+    Serial.begin(baudrate);
     delay(2000);
 }
 
@@ -121,7 +121,6 @@ int SerialHandler::readPacket(uint8_t * packet, uint8_t length)
             delay(1);
             continue;
         }
-
         read_length += read_bytes;
         
         if (read_length == wait_length){
@@ -131,7 +130,7 @@ int SerialHandler::readPacket(uint8_t * packet, uint8_t length)
                 if ((packet[idx] == static_cast<uint8_t>(0xFF)) && (packet[idx + 1] == static_cast<uint8_t>(0xFF)) && (packet[idx + 2] == static_cast<uint8_t>(0xFD)) && (packet[idx + 3] == static_cast<uint8_t>(FROM_PC)))
                     break;
             }
-            
+
             if (idx == 0){
                 result = COMM_SUCCESS;
                 break;

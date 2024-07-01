@@ -1,7 +1,7 @@
 #include "SerialHandler.h"
 #include "MPU9250.h"
 
-#define BAUDRATE 9600
+long BAUDRATE = 38400;
 
 SerialHandler serial_handler;
 MPU9250       mpu_9250;

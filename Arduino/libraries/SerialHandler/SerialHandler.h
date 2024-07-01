@@ -14,8 +14,8 @@
 #define PKT_LENGTH       4
 #define PKT_PARAMETER    5
 
-#define FROM_PC      0xC9
-#define FROM_ARDUINO 0xC8
+#define FROM_PC      0x40
+#define FROM_ARDUINO 0x41
 
 class SerialHandler
 {
@@ -23,7 +23,7 @@ public:
     SerialHandler();
     virtual ~SerialHandler();
     
-    void openPort(const int baudrate);
+    void openPort(long baudrate);
     void closePort();
     void clearPort();
     
@@ -31,10 +31,10 @@ public:
     int readPort(uint8_t * data, uint8_t length);
     
 private:
-    int baudrate_;
+    long baudrate_;
     
-    void setBaudrate(const int baudrate);
-    void setupPort();
+    void setBaudrate(long baudrate);
+    void setupPort(long baudrate);
     
     int writePacket(uint8_t * packet);
     int readPacket(uint8_t * packet, uint8_t length);
