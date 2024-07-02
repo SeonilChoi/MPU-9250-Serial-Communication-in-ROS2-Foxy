@@ -15,13 +15,41 @@ This work presents the serial communication between an Arduino UNO and a local P
 
 # Circuit Diagram
 
-<img width="517" alt="스크린샷 2024-07-02 111250" src="https://github.com/SeonilChoi/MPU-9250-Serial-Communication/assets/172185042/b1f2e55c-3198-4ead-9105-7ead2ea03db2"> 
-
-|제목|내용|설명|
-|------|---|---|
-|테스트1|테스트2|테스트3|
-|테스트1|테스트2|테스트3|
-|테스트1|테스트2|테스트3|
+<table>
+    <tr>
+        <td align = "center">
+          <img src="https://github.com/SeonilChoi/MPU-9250-Serial-Communication/assets/172185042/b1f2e55c-3198-4ead-9105-7ead2ea03db2" width = 95%>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <th><strong>UNO</strong></th>
+                    <th><strong>MPU9250</strong></th>
+                </tr>
+                <tr>
+                    <td>VCC</td>
+                    <td>VCC</td>
+                </tr>
+                <tr>
+                    <td>GND</td>
+                    <td>GND</td>
+                </tr>
+                <tr>
+                    <td>A4</td>
+                    <td>SDA, EDA</td>
+                </tr>
+                <tr>
+                    <td>A5</td>
+                    <td>SCL, ECL</td>
+                </tr>
+                 <tr>
+                    <td>INT</td>
+                    <td>2</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 
 # Description
 
