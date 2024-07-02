@@ -1,4 +1,4 @@
-# MPU9250 Serial Communication
+# MPU9250 Serial Communication in ROS2 Foxy
 
 This work presents the serial communication between an **Arduino UNO** and a **local PC** for sending the raw data of MPU9250.
 
