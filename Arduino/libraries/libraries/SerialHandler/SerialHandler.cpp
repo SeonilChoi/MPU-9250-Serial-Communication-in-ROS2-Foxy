@@ -11,7 +11,7 @@ SerialHandler::~SerialHandler()
     closePort();
 }
 
-void SerialHandler::openPort(long baudrate)
+void SerialHandler::openPort(const int baudrate)
 {
     setBaudrate(baudrate);
 }
@@ -29,17 +29,17 @@ void SerialHandler::clearPort()
     }
 }
 
-void SerialHandler::setBaudrate(long baudrate)
+void SerialHandler::setBaudrate(const int baudrate)
 {
     closePort();
     
     baudrate_ = baudrate;
-    setupPort(baudrate);
+    setupPort();
 }
 
-void SerialHandler::setupPort(long baudrate)
+void SerialHandler::setupPort()
 {
-    Serial.begin(baudrate);
+    Serial.begin(baudrate_);
     delay(2000);
 }
 
@@ -95,7 +95,7 @@ int SerialHandler::readPort(uint8_t * data, uint8_t length)
     
     if (result == COMM_SUCCESS)
     {
-        for (uint8_t s = 0; s < packet[PKT_LENGTH]; s++)
+        for (uint8_t s = 0; s < length; s++)
             data[s] = packet[PKT_PARAMETER + s];
     }
     
@@ -112,7 +112,7 @@ int SerialHandler::readPacket(uint8_t * packet, uint8_t length)
         return result;
     
     size_t read_length = 0;
-    size_t wait_length = 5; // min packet length
+    size_t wait_length = length + 5;
     
     while (true)
     {
@@ -121,6 +121,7 @@ int SerialHandler::readPacket(uint8_t * packet, uint8_t length)
             delay(1);
             continue;
         }
+
         read_length += read_bytes;
         
         if (read_length == wait_length){
@@ -130,13 +131,8 @@ int SerialHandler::readPacket(uint8_t * packet, uint8_t length)
                 if ((packet[idx] == static_cast<uint8_t>(0xFF)) && (packet[idx + 1] == static_cast<uint8_t>(0xFF)) && (packet[idx + 2] == static_cast<uint8_t>(0xFD)) && (packet[idx + 3] == static_cast<uint8_t>(FROM_PC)))
                     break;
             }
-
+            
             if (idx == 0){
-                if (wait_length != packet[PKT_LENGTH] + 5){
-                    wait_length = packet[PKT_LENGTH] + 5;
-                    continue;
-                }
-
                 result = COMM_SUCCESS;
                 break;
             }
