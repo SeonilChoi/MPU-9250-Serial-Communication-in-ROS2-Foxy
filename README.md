@@ -55,7 +55,7 @@ This work presents the serial communication between an **Arduino UNO** and a **l
 
 # Description
 
-## From Arduino
+## Arduino
 
 The **SerialHandler** library is used to read and write the data and set up the port.
 
@@ -63,7 +63,7 @@ The **MPU9250** library is used to read the IMU raw data.
 
 The main code is **MPU9250SerialCommunication**, which transmits and recives the packet to and from the local PC.
 
-## From ROS
+## Local PC
 
 The data from the IMU, which consists of accelerations, angular velocities, and magnetic fields, is published by the node named **IMUPublisher**.
 
