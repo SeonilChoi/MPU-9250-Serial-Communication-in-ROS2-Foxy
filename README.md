@@ -15,6 +15,14 @@ This work presents the serial communication between an Arduino UNO and a local P
 
 # Circuit Diagram
 
+<img width="517" alt="스크린샷 2024-07-02 111250" src="https://github.com/SeonilChoi/MPU-9250-Serial-Communication/assets/172185042/b1f2e55c-3198-4ead-9105-7ead2ea03db2"> 
+
+|제목|내용|설명|
+|------|---|---|
+|테스트1|테스트2|테스트3|
+|테스트1|테스트2|테스트3|
+|테스트1|테스트2|테스트3|
+
 # Description
 
 The **SerialHandler** library is used to read and write the data and set up the port.
