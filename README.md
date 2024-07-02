@@ -55,6 +55,8 @@ This work presents the serial communication between an **Arduino UNO** and a **l
 
 # Description
 
+## From Arduino
+
 The **SerialHandler** library is used to read and write the data and set up the port.
 
 The **MPU9250** library is used to read the IMU raw data.
