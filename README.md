@@ -71,6 +71,8 @@ This package reads raw data from the IMU using a library named **PortHandler**.
 
 # Usage
 
+## Arduino
+
 1. Set the permission of the port.
 
 ```
@@ -81,3 +83,18 @@ sudo chmod 777 /dev/(Arduino port name)
 2. Compile and upload to the Arduino board.
 
 3. Open the serial monitor and set the baudrate and close the serial monitor.
+
+## ROS2
+
+### Build
+
+```
+colcon build --packages-select imu_serial_communication
+
+```
+
+### Run
+
+```
+ros2 launch imu_serial_communication imu_serial_communication.launch.py
+```
