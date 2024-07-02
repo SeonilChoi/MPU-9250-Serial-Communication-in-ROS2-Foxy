@@ -10,6 +10,7 @@ This work presents the serial communication between an **Arduino UNO** and a **l
 
 - Ubuntu 20.04
 - Arduino IDE 2.3.2 linux
+- ROS2 Foxy
 
 - Arduino UNO
 - MPU9250
