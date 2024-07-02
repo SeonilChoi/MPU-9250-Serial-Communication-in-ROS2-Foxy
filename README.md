@@ -18,7 +18,7 @@ This work presents the serial communication between an Arduino UNO and a local P
 <table>
     <tr>
         <td align = "center">
-          <img src="https://github.com/SeonilChoi/MPU-9250-Serial-Communication/assets/172185042/b1f2e55c-3198-4ead-9105-7ead2ea03db2" width = 95%>
+          <img src="https://github.com/SeonilChoi/MPU-9250-Serial-Communication/assets/172185042/ac212186-184a-4530-98da-9cd03c5de7ff" width = 1500>
         </td>
         <td>
             <table>
