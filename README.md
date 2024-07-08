@@ -74,7 +74,6 @@ This package reads raw data from the IMU using a library named **PortHandler**.
 
 ```
 sudo chmod 777 /dev/(Arduino port name)
-
 ```
 
 2. Compile and upload to the Arduino board.
@@ -87,7 +86,6 @@ sudo chmod 777 /dev/(Arduino port name)
 
 ```
 colcon build --packages-select imu_serial_communication
-
 ```
 
 ### Run
