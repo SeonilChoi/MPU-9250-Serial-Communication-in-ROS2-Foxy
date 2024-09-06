@@ -78,8 +78,6 @@ sudo chmod 777 /dev/(Arduino port name)
 
 2. Compile and upload to the Arduino board.
 
-3. Open the serial monitor and set the baudrate and close the serial monitor.
-
 ## ROS2
 
 ### Build
