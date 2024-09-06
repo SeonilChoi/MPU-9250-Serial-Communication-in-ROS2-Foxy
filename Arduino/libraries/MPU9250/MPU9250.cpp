@@ -16,7 +16,7 @@ void MPU9250::setupSensor()
     setupAK8963();
 }
 
-void MPU9250::readSensor(uint8_t * id, uint8_t length, uint8_t * data)
+void MPU9250::readSensor(const uint8_t * id, const uint8_t & length, uint8_t * data)
 {
     uint8_t read_length = 0;
     
@@ -60,7 +60,7 @@ void MPU9250::setupAK8963()
     delay(10);
 }
 
-void MPU9250::readMPU6500(uint8_t id, uint8_t length, uint8_t * data)
+void MPU9250::readMPU6500(const uint8_t & id, const uint8_t & length, uint8_t * data)
 {
     Wire.beginTransmission(MPU_ADDR);
     Wire.write(id);
@@ -74,7 +74,7 @@ void MPU9250::readMPU6500(uint8_t id, uint8_t length, uint8_t * data)
     Wire.endTransmission(true); 
 }
 
-void MPU9250::readAK8963(uint8_t id, uint8_t length, uint8_t * data)
+void MPU9250::readAK8963(const uint8_t & id, const uint8_t & length, uint8_t * data)
 {
     Wire.beginTransmission(AK_ADDR);
     Wire.write(0x0A);

@@ -15,6 +15,12 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+  add_compile_options(-O3 -march=native -DNDEBUG)
+elseif(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  add_compile_options(-g)
+endif()
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -30,6 +36,10 @@ include_directories(include)
 set(PORT_HANDLER_SOURCES src/PortHandler.cpp)
 add_library(port_handler_library SHARED ${PORT_HANDLER_SOURCES})
 install(TARGETS port_handler_library DESTINATION lib)
+
+add_executable(port_test src/port_test.cpp)
+target_link_libraries(port_test port_handler_library)
+install(TARGETS port_test DESTINATION lib/${PROJECT_NAME})
 
 set(imu_publisher_dependencies "rclcpp" "sensor_msgs")
 add_executable(imu_publisher src/IMUPublisher.cpp)

@@ -8,8 +8,9 @@ def generate_launch_description():
         name = "imu_publisher",
         parameters = [{
             "MPU6050":True,
-            "AK8963":True
-        }]
+            "AK8963":False
+        }],
+        output="screen"
     )
     
     return LaunchDescription([

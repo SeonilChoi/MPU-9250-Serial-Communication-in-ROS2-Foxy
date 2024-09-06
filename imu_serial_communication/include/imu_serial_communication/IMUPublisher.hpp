@@ -1,10 +1,14 @@
 #ifndef IMU_PUBLISHER_HPP_
 #define IMU_PUBLISHER_HPP_
 
+#include <memory>
+#include <vector>
 #include <rclcpp/rclcpp.hpp>
 
 #include "sensor_msgs/msg/imu.hpp"
 #include "sensor_msgs/msg/magnetic_field.hpp"
+
+#include "imu_serial_communication/PortHandler.hpp"
 
 class IMUPublisher : public rclcpp::Node
 {
@@ -22,15 +26,17 @@ private:
 
     void timer_callback();
 
-    void convertRaw2Imu(uint8_t * raw, int16_t * data);
-    void convertData2ImuMsg(int16_t * data);
-    void convertData2MagMsg(int16_t * data);
+    void convertRaw2Imu(const std::vector<uint8_t> & raw, std::vector<int16_t> & data);
+    void convertData2ImuMsg(const int16_t * data);
+    void convertData2MagMsg(const int16_t * data);
 
-    bool MPU6050_;
-    bool AK8963_;
+    const bool MPU6050_;
+    const bool AK8963_;
 
-    uint8_t * write_data_;
+    std::vector<uint8_t> write_data_;
     uint8_t write_length_;
+
+    std::unique_ptr<PortHandler> imu_port_;
 };
 
 #endif

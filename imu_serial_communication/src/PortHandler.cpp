@@ -14,11 +14,6 @@
 #include <sys/ioctl.h>
 #include <linux/serial.h>
 
-PortHandler * PortHandler::getPortHandler(const char * port_name)
-{
-    return (PortHandler *)(new PortHandler(port_name));
-}
-
 PortHandler::PortHandler(const char * port_name)
     : socket_fd_(-1)
 {
@@ -30,15 +25,17 @@ PortHandler::~PortHandler()
     closePort();
 }
 
-bool PortHandler::openPort(const int baudrate)
+bool PortHandler::openPort(const int & baudrate)
 {
     return setBaudrate(baudrate);   
 }
 
 void PortHandler::closePort()
 {
-    if (socket_fd_ != -1)
+    if (socket_fd_ != -1){
+        std::cout << "[PortHandler::cloesPort] close the port." << std::endl;
         close(socket_fd_);
+    }
     socket_fd_ = -1;
 }
 
@@ -52,7 +49,7 @@ void PortHandler::setPortName(const char * port_name)
     strcpy(port_name_, port_name);
 }
 
-bool PortHandler::setBaudrate(const int baudrate)
+bool PortHandler::setBaudrate(const int & baudrate)
 {
     closePort();
 
@@ -60,9 +57,10 @@ bool PortHandler::setBaudrate(const int baudrate)
     return setupPort(baudrate);
 }
 
-bool PortHandler::setupPort(const int baudrate)
+bool PortHandler::setupPort(const int & baudrate)
 {
-    socket_fd_ = open(port_name_, O_RDWR | O_NOCTTY | O_NONBLOCK);
+    socket_fd_ = open(port_name_, O_RDWR | O_NOCTTY);
+    
     if (socket_fd_ < 0)
         return false;
     
@@ -76,7 +74,7 @@ bool PortHandler::setupPort(const int baudrate)
     }
 
     cfsetospeed(&tty, baudrate);
-    cfsetospeed(&tty, baudrate);
+    cfsetispeed(&tty, baudrate);
     
     tty.c_cflag &= ~PARENB;
     tty.c_cflag &= ~CSTOPB;
@@ -107,15 +105,17 @@ bool PortHandler::setupPort(const int baudrate)
     
     tcflush(socket_fd_, TCIFLUSH);
 
+    usleep(5000000);
+
     return true;
 }
 
-int PortHandler::writePort(uint8_t * data, uint8_t length)
+int PortHandler::writePort(const std::vector<uint8_t> & data, const uint8_t & length)
 {
     int result = COMM_WRITE_FAIL;
 
-    uint8_t * packet = new uint8_t[length + 5];
-
+    std::vector<uint8_t> packet(length + 5);
+    
     packet[PKT_HEADER_0]    = 0xFF;
     packet[PKT_HEADER_1]    = 0xFF;
     packet[PKT_HEADER_2]    = 0xFD;
@@ -127,38 +127,35 @@ int PortHandler::writePort(uint8_t * data, uint8_t length)
 
     result = writePacket(packet);
     
-    delete[] packet;
-
     return result;
 }
 
-int PortHandler::writePacket(uint8_t * packet)
+int PortHandler::writePacket(const std::vector<uint8_t> & packet)
 {
     ssize_t written_packet_length = 0;
     ssize_t total_packet_length = static_cast<ssize_t>(packet[PKT_LENGTH]) + 5;
 
     clearPort();
     
-    written_packet_length = write(socket_fd_, packet, total_packet_length);
+    written_packet_length = write(socket_fd_, packet.data(), total_packet_length);
     
     if (written_packet_length != total_packet_length){
         return COMM_WRITE_FAIL;
     }
     
-    for (ssize_t s = 0; s < total_packet_length; s++){
-        std::cout << static_cast<int>(packet[s]) << std::endl;
-    }
-
     return COMM_SUCCESS;
 }
 
-int PortHandler::readPort(uint8_t * data, uint8_t length)
+int PortHandler::readPort(std::vector<uint8_t> & data, const uint8_t & length)
 {
     int result = COMM_READ_FAIL;
-    uint8_t * packet = new uint8_t[length + 5];
+
+    std::vector<uint8_t> packet(length + 5);
     
     do {
         result = readPacket(packet, length);
+        if (result == COMM_READ_TIMEOUT)
+            break;
     }while(result != COMM_SUCCESS);
 
     if (result == COMM_SUCCESS){
@@ -166,25 +163,43 @@ int PortHandler::readPort(uint8_t * data, uint8_t length)
             data[s] = packet[PKT_PARAMETER + s];
     }
     
-    delete[] packet;
-
     return result;
 }
 
-int PortHandler::readPacket(uint8_t * packet, uint8_t length)
+int PortHandler::readPacket(std::vector<uint8_t> & packet, const uint8_t & length)
 {
     int result = COMM_READ_FAIL;
     
     ssize_t read_length = 0;
     ssize_t wait_length = length + 5;
-
+    
+    const int timeout_sec = 3;
+    fd_set read_fds;
+    struct timeval timeout;
+    
     while (true)
     {        
-        ssize_t read_bytes = read(socket_fd_, packet + read_length, wait_length - read_length);
+        
+        FD_ZERO(&read_fds);
+        FD_SET(socket_fd_, &read_fds);
+        
+        timeout.tv_sec = timeout_sec;
+        timeout.tv_usec = 0;
+        
+        int select_result = select(socket_fd_ + 1, &read_fds, NULL, NULL, &timeout);
+        if (select_result == -1){
+            return COMM_READ_FAIL;
+        } else if (select_result == 0){
+            return COMM_READ_TIMEOUT;
+        }
+        
+        ssize_t read_bytes = read(socket_fd_, &packet[read_length], wait_length - read_length);
         if (read_bytes < 0){
             if (errno == EAGAIN || errno == EWOULDBLOCK){
-                usleep(1);
+                usleep(1000);
                 continue;
+            } else {
+                return COMM_READ_FAIL;
             }
         }
 

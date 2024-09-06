@@ -1,8 +1,6 @@
 #ifndef MPU_9250_H_
 #define MPU_9250_H_
 
-#define ID_ACCELELOMETER 0x
-
 #define MPU_ADDR 0x68
 #define AK_ADDR  0x0C
 
@@ -19,14 +17,14 @@ public:
     virtual ~MPU9250();
 
     void setupSensor();
-    void readSensor(uint8_t * id, uint8_t length, uint8_t * data);
+    void readSensor(const uint8_t * id, const uint8_t & length, uint8_t * data);
     
 private:
     void setupMPU6500();
     void setupAK8963();
 
-    void readMPU6500(uint8_t id, uint8_t length, uint8_t * data);
-    void readAK8963(uint8_t id, uint8_t length, uint8_t * data);
+    void readMPU6500(const uint8_t & id, const uint8_t & length, uint8_t * data);
+    void readAK8963(const uint8_t & id, const uint8_t & length, uint8_t * data);
 };
 
 #endif
